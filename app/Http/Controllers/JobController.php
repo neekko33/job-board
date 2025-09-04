@@ -12,8 +12,20 @@ class JobController extends Controller
      */
     public function index()
     {
-        $jobs = Job::latest()->get();
-        return view('jobs.index', ['jobs' => $jobs]);
+        $jobs = Job::query();
+
+        $jobs->when(\request('search'), function ($query, $search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        })->when(\request('min_salary'), function ($query, $minSalary) {
+            $query->where('salary', '>=', $minSalary);
+        })->when(\request('max_salary'), function ($query, $maxSalary) {
+            $query->where('salary', '<=', $maxSalary);
+        });
+
+        return view('jobs.index', ['jobs' => $jobs->paginate(10)->withQueryString()]);
     }
 
     /**
