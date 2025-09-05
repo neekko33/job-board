@@ -4,11 +4,11 @@
                value="" @checked(!request($name))/>
         <label for="all">All</label>
     </div>
-    @foreach($options as $option)
+    @foreach($optionsWithLabels as $label => $option)
         <div class="flex items-center">
             <input type="radio" name="experience" id="{{$option}}" class="mr-1"
                    value="{{$option}}" @checked(request($name) === $option)/>
-            <label for="{{$option}}">{{Str::ucfirst($option)}}</label>
+            <label for="{{$option}}">{{$label}}</label>
         </div>
     @endforeach
 </div>

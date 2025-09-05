@@ -19,22 +19,14 @@
                 </div>
                 <div>
                     <div class="mb-1 font-semibold">Experience</div>
-                    <x-radio-group :options="Job::$experienceLevels" name="experience" class="flex flex-col gap-1"></x-radio-group>
+                    <x-radio-group
+                        :options="array_combine(array_map('ucfirst', Job::$experienceLevels), Job::$experienceLevels)"
+                        name="experience" class="flex flex-col gap-1"></x-radio-group>
                 </div>
                 <div>
                     <div class="mb-1 font-semibold">Category</div>
-                    <select
-                        class="w-full rounded-md border-0 py-1.5 px-2.5 text-sm ring-1 ring-slate-300 placeholder:text-slate-400 focus:ring-2"
-                        name="category">
-                        <option value="">All</option>
-                        @foreach(Job::$categories as $category)
-                            <option
-                                value="{{$category}}"
-                                @selected(request('category') === $category)>
-                                {{Str::ucfirst($category)}}
-                            </option>
-                        @endforeach
-                    </select>
+                    <x-radio-group :options="Job::$categories" name="category"
+                                   class="flex flex-col gap-1"></x-radio-group>
                 </div>
                 <div>
                 </div>
