@@ -1,3 +1,4 @@
+@php use App\Models\Job;use Illuminate\Support\Str; @endphp
 <x-layout>
     <x-bread-crumbs class="mb-4" :links="['Jobs' => route('jobs.index')]"/>
 
@@ -16,8 +17,28 @@
                         <x-text-input name="max_salary" value="{{request('max_salary')}}" placeholder="To"/>
                     </div>
                 </div>
+                <div>
+                    <div class="mb-1 font-semibold">Experience</div>
+                    <x-radio-group :options="Job::$experienceLevels" name="experience" class="flex flex-col gap-1"></x-radio-group>
+                </div>
+                <div>
+                    <div class="mb-1 font-semibold">Category</div>
+                    <select
+                        class="w-full rounded-md border-0 py-1.5 px-2.5 text-sm ring-1 ring-slate-300 placeholder:text-slate-400 focus:ring-2"
+                        name="category">
+                        <option value="">All</option>
+                        @foreach(Job::$categories as $category)
+                            <option
+                                value="{{$category}}"
+                                @selected(request('category') === $category)>
+                                {{Str::ucfirst($category)}}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                </div>
             </div>
-
             <button type="submit" class="rounded-md px-2 py-1 border cursor-pointer">Filter</button>
         </form>
     </x-card>
