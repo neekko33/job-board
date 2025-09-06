@@ -24,13 +24,19 @@ class DatabaseSeeder extends Seeder
 
         $users = User::factory(300)->create()->push($user)->shuffle();
 
-        $employers = Employer::factory(20)->create([
-            'user_id' => $users->pop()->id,
-        ]);
+        for ($i = 0; $i < 20; $i++) {
+            Employer::factory()->create([
+                'user_id' => $users->pop()->id,
+            ]);
+        }
 
-        Job::factory(100)->create([
-            'employer_id' => $employers->random()->id,
-        ]);
+        $employers = Employer::all();
+
+        for ($i = 0; $i < 100; $i++) {
+            Job::factory()->create([
+                'employer_id' => $employers->random()->id,
+            ]);
+        }
 
         foreach ($users as $user) {
             $jobs = Job::inRandomOrder()->take(rand(0, 4))->get();
