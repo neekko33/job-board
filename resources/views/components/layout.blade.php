@@ -26,7 +26,9 @@
                 </form>
             </li>
         @else
-            <a href="{{route('login')}}" class="hover:underline cursor-pointer">Sign in</a>
+            @if(!request()->routeIs('login'))
+                <a href="{{route('login')}}" class="hover:underline cursor-pointer">Sign in</a>
+            @endif
         @endauth
     </ul>
 </nav>
