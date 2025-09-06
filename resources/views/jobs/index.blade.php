@@ -4,7 +4,6 @@
 
     <x-card class="mb-4 text-sm" x-data="">
         <form x-ref="filters" id="filtering-form" action="{{route('jobs.index')}}" method="GET">
-            @csrf
             <div class="mb-4 grid grid-cols-2 gap-4">
                 <div>
                     <div class="mb-1 font-semibold">Search</div>
