@@ -31,7 +31,9 @@
                 <div>
                 </div>
             </div>
-            <button type="submit" class="rounded-md px-2 py-1 border cursor-pointer">Filter</button>
+            <x-button class="w-full">
+                Filter
+            </x-button>
         </form>
     </x-card>
 
