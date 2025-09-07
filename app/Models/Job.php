@@ -17,7 +17,7 @@ class Job extends Model
     use HasFactory;
 
     protected $fillable = [
-      'employer_id',
+        'employer_id',
     ];
 
     public static array $experienceLevels = ['entry', 'mid', 'senior'];
