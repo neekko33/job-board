@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\JobApplication;
 
 class MyJobApplicationController extends Controller
 {
@@ -11,13 +11,19 @@ class MyJobApplicationController extends Controller
      */
     public function index()
     {
-        $myJobApplications = auth()->user()->jobApplications()->with('job')->latest()->get();
+        $myJobApplications = auth()->user()->jobApplications()
+            ->with([
+                'job.employer',
+                'job' => fn($q) => $q->withCount('jobApplications')->withAvg('jobApplications', 'expected_salary'),
+            ])
+            ->latest()
+            ->get();
         return view('my_job_applications.index', ['applications' => $myJobApplications]);
     }
 
-    public function destroy(string $id)
+    public function destroy(JobApplication $myJobApplication)
     {
-        auth()->user()->jobApplications()->where('id', $id)->delete();
+        $myJobApplication->delete();
         return to_route('my-job-applications.index')->with('success', 'Job application withdrawn successfully.');
     }
 }
