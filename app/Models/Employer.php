@@ -13,7 +13,7 @@ class Employer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'company_name', 'user_id',
     ];
 
     public function user():BelongsTo
