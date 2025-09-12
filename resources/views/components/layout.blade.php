@@ -16,12 +16,20 @@
                 <a href="{{ route('jobs.index') }}">Home</a>
             </li>
         </ul>
-        <ul class="flex space-x-2">
+        <ul class="flex space-x-4">
             @auth
                 <li>
                     <a href="{{ route('my-job-applications.index') }}">
-                        {{ auth()->user()->name }}: Applications
+                        Applications
                     </a>
+                </li>
+                <li>
+                    <a href="{{ route('my-jobs.index') }}">
+                        My Jobs
+                    </a>
+                </li>
+                <li>
+                    {{ auth()->user()->name }}
                 </li>
                 <li>
                     <form action="{{ route('logout') }}" method="POST">
