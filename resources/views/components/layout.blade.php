@@ -59,6 +59,21 @@
             </button>
         </div>
     @endif
+    @if (session('error'))
+        <div x-data="" x-ref="error"
+            class="my-8 rounded-md border-l-4 border-red-300 bg-red-100 p-4 text-red-700 relative">
+            <p class="font-bold">Error</p>
+            <p>{{ session('error') }}</p>
+            <button type="button"
+                class="absolute top-0 right-0 h-8 w-8 flex items-center justify-center hover:text-red-500 text-red-700 cursor-pointer"
+                @click="$refs['error'].remove()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    @endif
     {{ $slot }}
 </body>
 
