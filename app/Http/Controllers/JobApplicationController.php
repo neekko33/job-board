@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class JobApplicationController extends Controller
 {
@@ -12,9 +13,7 @@ class JobApplicationController extends Controller
      */
     public function create(Request $request, Job $job)
     {
-        if ($request->user()->cannot('apply', $job)) {
-            abort(403, 'You have already applied for this job.');
-        }
+        Gate::authorize('apply', $job);
         return view('job_applications.create', ['job' => $job]);
     }
 

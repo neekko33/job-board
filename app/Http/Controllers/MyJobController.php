@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\JobRequest;
 use Illuminate\Http\Request;
 use App\Models\Job;
+use Illuminate\Support\Facades\Gate;
 
 class MyJobController extends Controller
 {
@@ -42,9 +43,10 @@ class MyJobController extends Controller
      */
     public function edit(Job $myJob)
     {
-       return view('my_jobs.edit', [
-           'myJob' => $myJob,
-       ]);
+        Gate::authorize('update', $myJob);
+        return view('my_jobs.edit', [
+            'myJob' => $myJob,
+        ]);
     }
 
     /**
@@ -52,6 +54,7 @@ class MyJobController extends Controller
      */
     public function update(JobRequest $request, Job $myJob)
     {
+        Gate::authorize('update', $myJob);
         $myJob->update($request->validated());
         return redirect()->route('my-jobs.index')->with('success', 'Job updated successfully.');
     }
@@ -61,7 +64,7 @@ class MyJobController extends Controller
      */
     public function destroy(Job $myJob)
     {
-       $myJob->delete();
-       return redirect()->route('my-jobs.index')->with('success', 'Job deleted successfully.');
+        $myJob->delete();
+        return redirect()->route('my-jobs.index')->with('success', 'Job deleted successfully.');
     }
 }

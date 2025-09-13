@@ -6,7 +6,9 @@
             @can('apply', $job)
                 <x-link-button :href="route('job.application.create', $job)">Apply</x-link-button>
             @else
-                <p class="text-sm text-slate-500 text-center font-medium">You have already applied for this job.</p>
+                <p class="text-sm text-slate-500 text-center font-medium">
+                    {{ auth()->user()->id === $job->employer->user_id ? '' : 'You have already applied for this job.' }}
+                </p>
             @endcan
         @else
             <x-link-button :href="route('login')">Login to Apply</x-link-button>

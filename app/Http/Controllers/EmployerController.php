@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employer;
+use Illuminate\Support\Facades\Gate;
 
 class EmployerController extends Controller
 {
@@ -12,10 +13,7 @@ class EmployerController extends Controller
      */
     public function create(Request $request)
     {
-        if ($request->user()->cannot('create', Employer::class)) {
-            abort(403);
-        }
-
+        Gate::authorize('create', Employer::class);
         return view('employer.create');
     }
 
@@ -24,10 +22,7 @@ class EmployerController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->user()->cannot('create', Employer::class)) {
-            abort(403);
-        }
-
+        Gate::authorize('create', Employer::class);
         $request->user()->employer()->create(
             $request->validate([
                 'company_name' => 'required|string|min:3|unique:employers,company_name',
