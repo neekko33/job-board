@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class Job extends Model
@@ -15,7 +16,7 @@ class Job extends Model
     protected $table = 'custom_jobs';
 
     /** @use HasFactory<\Database\Factories\JobFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -29,6 +30,17 @@ class Job extends Model
 
     public static array $experienceLevels = ['entry', 'mid', 'senior'];
     public static array $categories = ['IT', 'Finance', 'Marketing', 'Sales'];
+
+    public static function booted()
+    {
+        static::deleting(function (Job $job) {
+            if ($job->isForceDeleting()) {
+                return ;
+            };
+
+            $job->jobApplications()->delete();
+        });
+    }
 
     public function employer(): BelongsTo
     {

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\JobRequest;
-use Illuminate\Http\Request;
 use App\Models\Job;
 use Illuminate\Support\Facades\Gate;
 
@@ -64,6 +63,7 @@ class MyJobController extends Controller
      */
     public function destroy(Job $myJob)
     {
+        Gate::authorize('delete', $myJob);
         $myJob->delete();
         return redirect()->route('my-jobs.index')->with('success', 'Job deleted successfully.');
     }
